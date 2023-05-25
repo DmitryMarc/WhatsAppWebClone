@@ -1,0 +1,19 @@
+.topbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    height: 40px;
+    min-height: 40px;
+    padding: 10px;
+    background-color: #f0f2f5;
+
+    .avatar{
+        height: 100%;
+        border-radius: 50%;
+    }
+}
+
+.extra{
+    border-left: 1px solid #d1d7db;
+}

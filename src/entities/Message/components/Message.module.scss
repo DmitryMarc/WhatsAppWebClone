@@ -1,0 +1,40 @@
+.message{
+    position: relative;
+    height: max-content;
+    max-width: 300px;
+    padding: 6px 7px 8px 9px;
+    margin-right: 20px;
+    word-wrap: break-word;
+    background-color: #d9fdd3;
+    box-shadow: 0 2px 0 0 grey;
+
+    &.outgoing {
+        border-radius: 8px 0 8px 8px;
+
+        &::after{
+            content: '';
+            position: absolute; 
+            top: 0;
+            right: -12px;
+            border: 6px solid transparent; 
+            border-left: 6px solid #d9fdd3; 
+            border-top: 6px solid #d9fdd3;
+        }
+    }
+
+    &.incoming {
+        border-radius: 0 8px 8px 8px;
+        align-self: flex-start;
+
+        &::before{
+            content: '';
+            position: absolute; 
+            top: 0;
+            left: -12px;
+            border: 6px solid transparent; 
+            border-right: 6px solid #d9fdd3; 
+            border-top: 6px solid #d9fdd3;
+        }
+    }
+}
+

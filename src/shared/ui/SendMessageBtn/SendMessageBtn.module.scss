@@ -1,0 +1,12 @@
+.send{
+    width: 62px;
+    background-color: inherit;
+    border: none;
+    outline: none;
+
+    &:focus,
+    &:hover {
+        border: none;
+        outline: none;
+    }
+}

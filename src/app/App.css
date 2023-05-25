@@ -1,0 +1,18 @@
+#root{
+  width: 100%;
+  min-width: 750px;
+  height: 100vh;
+  background-color: #00a884;
+
+  background: linear-gradient(to bottom, #00a884 15%, #dededd 15%);
+}
+.container {
+  display: flex;
+  width: 100%;
+  max-width: 1600px;
+  min-width: 750px;
+  max-height: 900px;
+
+  margin: 20px auto;
+  box-sizing: border-box;
+}
