@@ -1,0 +1,16 @@
+.menu {
+    display: flex;
+    width: 40px;
+    padding: 8px;
+    background-color: inherit;
+    border: none;
+    outline: none;
+
+    position: relative;
+
+    &:focus,
+    &:hover {
+        border: none;
+        outline: none;
+    }
+}

@@ -31,6 +31,14 @@ export const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
+        logout(state){
+            state.authData = {
+                idInstance: '',
+                apiTokenInstance: ''
+            }
+            state.isAuthorized = false,
+            state.status = Status.LOADING
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(fetchStateInstance.pending, (state) => {
@@ -54,5 +62,7 @@ export const authSlice = createSlice({
         });
     }
 })
+
+export const { logout } = authSlice.actions
 
 export default authSlice.reducer
