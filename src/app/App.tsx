@@ -1,13 +1,13 @@
-import { LoginPage, MainPage } from '../pages';
-
 import { useSelector } from 'react-redux';
-import { selectIsAuth } from '../widgets/model/auth/selectors';
+import { LoginPage, MainPage } from '../pages';
+import { selectIsAuth } from './model/selectors';
+
 import './App.css';
 
 const App = () => {
   const isAuth = useSelector(selectIsAuth);
 
-  if(!isAuth){
+  if (!isAuth) {
     return <LoginPage />
   }
   return <MainPage />

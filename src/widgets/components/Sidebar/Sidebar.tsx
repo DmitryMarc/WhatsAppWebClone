@@ -64,7 +64,10 @@ export const Sidebar = () => {
                     text={newContact} setText={setNewContact} 
                     setIsSent={setIsAdded} 
                 />
-                <AddContactBtn setIsAdded={setIsAdded} />
+                <AddContactBtn 
+                    setIsAdded={setIsAdded} 
+                    isFilledField={!!newContact} 
+                />
                 <Menu setSelectedMenuItem={setSelectedMenuItem} />
             </Topbar>
             {/* ЗАСУНУТЬ В МАПЕР */}
