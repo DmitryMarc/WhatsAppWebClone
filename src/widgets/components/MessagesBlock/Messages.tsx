@@ -1,15 +1,17 @@
 import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useAppDispatch } from '../../../app/model/appStore'
+import sendMessageIcon from '../../../assets/img/send.svg'
 import { Bottombar } from '../../../entities/Bottombar'
 import { Message } from '../../../entities/Message'
 import { Topbar } from '../../../entities/Topbar'
-import { InputField, SendMessageBtn } from '../../../shared'
+import { Button, InputField } from '../../../shared'
 import { selectAuthData } from '../../model/auth/selectors'
 import { selectChats, selectCurrentItemId, selectItemsInfo } from '../../model/chats/selectors'
 import { selectChatHistory } from '../../model/messages/selectors'
 import { fetchChatHistory } from '../../model/messages/thunks/fetchChatHistory'
 import { sendMessage } from '../../model/messages/thunks/sendMessage'
+
 import styles from './Messages.module.scss'
 
 export const Messages = () => {
@@ -76,9 +78,11 @@ export const Messages = () => {
                     setText={setWrittenText} 
                     setIsSent={setIsSent}
                 />
-                <SendMessageBtn 
-                    setIsSent={setIsSent} 
+                <Button 
+                    setIsClicked={setIsSent} 
                     isFilledField={!!writtenText} 
+                    iconUrl={sendMessageIcon}
+                    alt="send message"
                 />
             </Bottombar>
         </div>

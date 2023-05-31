@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react"
 import { useSelector } from "react-redux"
 import { useAppDispatch } from "../../../app/model/appStore"
+import AddContactIcon from '../../../assets/img/add-contact.svg'
 import { Chat } from '../../../entities/Chat'
 import { Menu } from "../../../entities/Menu"
 import { Topbar } from "../../../entities/Topbar"
-import { AddContactBtn, InputField } from "../../../shared"
+import { Button, InputField } from "../../../shared"
 import { deleteAuthDataFromLocalStorage } from "../../lib/deleteAuthDataFromLocalStorage"
 import { logout } from "../../model/auth/authSlice"
 import { selectAuthData } from "../../model/auth/selectors"
@@ -13,6 +14,7 @@ import { selectChats, selectCurrentItemId, selectItemsInfo } from "../../model/c
 import { addNewContact } from "../../model/chats/thunks/addNewContact"
 import { fetchChats } from "../../model/chats/thunks/fetchChats"
 import styles from './Sidebar.module.scss'
+
 
 export const Sidebar = () => {
     const [newContact, setNewContact] = useState('');
@@ -64,9 +66,11 @@ export const Sidebar = () => {
                     text={newContact} setText={setNewContact} 
                     setIsSent={setIsAdded} 
                 />
-                <AddContactBtn 
-                    setIsAdded={setIsAdded} 
-                    isFilledField={!!newContact} 
+                <Button 
+                    setIsClicked={setIsAdded} 
+                    isFilledField={!!newContact}
+                    iconUrl={AddContactIcon}
+                    alt="add contact"
                 />
                 <Menu setSelectedMenuItem={setSelectedMenuItem} />
             </Topbar>

@@ -1,15 +1,15 @@
-.sidebar{
+.sidebar {
     width: max-content;
     min-width: 350px;
     background-color: white;
     border-right: 1px solid #e9edef;
     overflow: hidden;
 
-        .chats{
-            width: 105%;
-            height: 840px;
-            overflow-y: auto;
-            padding-right: 17px; 
-            box-sizing: content-box; 
+    .chats {
+        width: 105%;
+        height: 840px;
+        overflow-y: auto;
+        padding-right: 17px;
+        box-sizing: content-box;
     }
 }
