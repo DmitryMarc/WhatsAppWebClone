@@ -1,5 +1,5 @@
 import { FC, useState } from 'react'
-import menuIcon from '../../../assets/img/menu.svg'
+import menuIcon from '../../../shared/assets/img/menu.svg'
 import styles from './Menu.module.scss'
 import { Popup } from '../../../shared/ui/Popup/Popup'
 

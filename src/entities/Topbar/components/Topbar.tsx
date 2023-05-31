@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import reactIcon from '../../../assets/react.svg'
+import reactIcon from '../../../shared/assets/react.svg'
 import { Avatar } from '../../../shared'
 import styles from './Topbar.module.scss'
 

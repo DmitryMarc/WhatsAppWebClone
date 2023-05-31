@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { useSelector } from "react-redux"
 import { useAppDispatch } from "../../../app/model/appStore"
-import AddContactIcon from '../../../assets/img/add-contact.svg'
+import AddContactIcon from '../../../shared/assets/img/add-contact.svg'
 import { Chat } from '../../../entities/Chat'
 import { Menu } from "../../../entities/Menu"
 import { Topbar } from "../../../entities/Topbar"

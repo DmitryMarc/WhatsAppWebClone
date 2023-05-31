@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useAppDispatch } from '../../../app/model/appStore'
-import sendMessageIcon from '../../../assets/img/send.svg'
+import sendMessageIcon from '../../../shared/assets/img/send.svg'
 import { Bottombar } from '../../../entities/Bottombar'
 import { Message } from '../../../entities/Message'
 import { Topbar } from '../../../entities/Topbar'
