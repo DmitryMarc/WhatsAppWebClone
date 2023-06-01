@@ -8,24 +8,51 @@
     gap: 10px;
     background-color:#EFEAE2;
 
-    .wrapper{
-        width: 25%;
+    .loginForm {
         display: flex;
         flex-direction: column;
-    }
+        width: 350px;
+        max-width: 350px;
 
-    .loginBtn{
-        border: none;
-        outline: none;
+        .title{
+            align-self: center;
+            font-size: 20px;
+            font-weight: bold;
+            opacity: .8;
+        }
     
-        &:focus,
-        &:hover {
-            border: none;
-            outline: none;
+        .wrapper{
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
         }
 
-        &:hover {
-            transform: scale(1.1)
+        .loginBottom{
+            display: flex;
+            justify-content: space-between;
+
+            .error{
+                color: red;
+                font-size: 14px;
+                opacity: .8;
+            }
+        
+            .loginBtn{
+                align-self: flex-start;
+                border: none;
+                outline: none;
+            
+                &:focus,
+                &:hover {
+                    border: none;
+                    outline: none;
+                }
+        
+                &:hover {
+                    transform: scale(1.1)
+                }
+            }
         }
+
     }
 }

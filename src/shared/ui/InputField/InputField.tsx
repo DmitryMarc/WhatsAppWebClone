@@ -14,6 +14,7 @@ export const InputField: FC<InputFieldProps> = ({placeholder, text, setText, set
             onKeyDown={(e) => e.code === 'Enter' && setIsSent ? setIsSent(true) : null}
             value={text}
             placeholder={placeholder}
+            spellCheck="false"
         >
         </input>
     )
