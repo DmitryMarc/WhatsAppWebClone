@@ -10,11 +10,17 @@ export type AvatarType = {
     urlAvatar: string
 }
 
+export type AddingContactType = {
+    status: Status,
+    error: string | undefined
+}
+
 type ChatsStateType = {
     items: ChatType[],
     itemsInfo: AvatarType[],
     statusItems: Status,
-    selectedItemId: string | null
+    selectedItemId: string | null,
+    addingСontact: AddingContactType
 }
 
 export enum Status {
@@ -27,7 +33,11 @@ export const initialState: ChatsStateType= {
     items: [],
     itemsInfo: [],
     statusItems: Status.LOADING,
-    selectedItemId: null
+    selectedItemId: null,
+    addingСontact: {
+        status: Status.LOADING,
+        error: undefined
+    }
 }
 
 export const chatsSlice = createSlice({
@@ -42,6 +52,10 @@ export const chatsSlice = createSlice({
             }
             state.selectedItemId = action.payload;
         },
+        setAddingContactError(state, action: PayloadAction<AddingContactType>){
+            state.addingСontact.error = action.payload.error;
+            state.addingСontact.status = action.payload.status;
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(fetchChats.pending, (state) => {
@@ -77,6 +91,9 @@ export const chatsSlice = createSlice({
             console.log('Идёт отправка');
         });
         builder.addCase(addNewContact.fulfilled, (state, action) => {
+            state.addingСontact.status = Status.SUCCESS;
+            state.addingСontact.error = undefined;
+
             const {contact, chatId, avatar} = action.payload;
             const foundMatch = state.items.find(item => item.id === chatId)
             if(!foundMatch){
@@ -93,12 +110,29 @@ export const chatsSlice = createSlice({
             console.log(state, 'Новый чат добавлен');
             } 
         });
-        builder.addCase(addNewContact.rejected, () => {
+        builder.addCase(addNewContact.rejected, (state, action) => {
             console.log('Была ошибка');
+            state.addingСontact.status = Status.ERROR;
+            const errorCode = action.payload;
+            switch(errorCode){
+                case 500: {
+                    state.addingСontact.error = '*Серверная ошибка.';
+                    break;
+                };
+                case 466: {
+                    state.addingСontact.error = '*Исчерпан лимит запросов';
+                    break;
+                };
+                case 401:
+                case 400: {
+                    state.addingСontact.error = '*Пользователь не авторизован';
+                    break;
+                };
+            }
         });
     }
 })
 
-export const { setSelectedItem } = chatsSlice.actions
+export const { setSelectedItem, setAddingContactError } = chatsSlice.actions
 
 export default chatsSlice.reducer

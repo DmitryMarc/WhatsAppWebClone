@@ -9,11 +9,12 @@ import { Button, InputField } from "../../../shared"
 import { deleteAuthDataFromLocalStorage } from "../../lib/deleteAuthDataFromLocalStorage"
 import { logout } from "../../model/auth/authSlice"
 import { selectAuthData } from "../../model/auth/selectors"
-import { setSelectedItem } from "../../model/chats/chatsSlice"
-import { selectChats, selectCurrentItemId, selectItemsInfo } from "../../model/chats/selectors"
+import { Status, setAddingContactError, setSelectedItem } from "../../model/chats/chatsSlice"
+import { selectChats, selectCurrentItemId, selectItemsInfo, selectAddingСontact } from "../../model/chats/selectors"
 import { addNewContact } from "../../model/chats/thunks/addNewContact"
 import { fetchChats } from "../../model/chats/thunks/fetchChats"
 import styles from './Sidebar.module.scss'
+import { Tooltip } from "../../../shared/ui/Tooltip/Tooltip"
 
 
 export const Sidebar = () => {
@@ -27,6 +28,7 @@ export const Sidebar = () => {
     const chats = useSelector(selectChats);
     const chatsAvatars = useSelector(selectItemsInfo);
     const authData = useSelector(selectAuthData);
+    const addingContact = useSelector(selectAddingСontact);
 
     useEffect(()=>{
         if (!isMounted.current){
@@ -36,14 +38,28 @@ export const Sidebar = () => {
     },[])
 
     useEffect(() => {
-        if(newContact){
-            if (newContact.length === 11 || newContact.length === 12){
+        if(isAdded){
+            if (+newContact.slice(1) && (newContact.length === 11 || newContact.length === 12)){
                 dispatch(addNewContact({contact: newContact, authData}));
+                setNewContact('');
+            } else {
+                dispatch(setAddingContactError({
+                    status: Status.ERROR,
+                    error: 'Неверный формат. Введите контакт в формате: +79118765535 или 89118765535'
+                }));
             }
         }
-        setNewContact('')
         setIsAdded(false);
     }, [isAdded])
+
+    useEffect(() => {
+        if (addingContact.status === Status.ERROR){
+            dispatch(setAddingContactError({
+                status: Status.LOADING,
+                error: undefined
+            }));
+        }
+    }, [newContact, selectedChatId])
 
     useEffect(() => {
         chatsTop.current?.scrollTo(0, 0)
@@ -61,11 +77,14 @@ export const Sidebar = () => {
     return (
         <div className={styles.sidebar}>
             <Topbar>
-                <InputField 
-                    placeholder={'Добавьте контакт'} 
-                    text={newContact} setText={setNewContact} 
-                    setIsSent={setIsAdded} 
-                />
+                <Tooltip data={addingContact}>
+                    <InputField 
+                            placeholder={'Добавьте контакт'} 
+                            text={newContact} 
+                            setText={setNewContact} 
+                            setIsSent={setIsAdded} 
+                        />
+                </Tooltip>
                 <Button 
                     setIsClicked={setIsAdded} 
                     isFilledField={!!newContact}
