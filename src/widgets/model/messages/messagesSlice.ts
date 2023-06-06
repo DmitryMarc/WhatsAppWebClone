@@ -76,18 +76,20 @@ export const messagesSlice = createSlice({
         builder.addCase(getLastMessage.fulfilled, (state, action) => {
             if (action.payload){
                 const {idMessage, senderData, messageData} = action.payload.body;
-                const newItem: MessageType = {
-                    type: senderData.chatId === senderData.sender ? 'incoming' : 'outgoing',
-                    idMessage: idMessage,
-                    chatId: senderData.chatId,
-                    senderId: senderData.sender,
-                    typeMessage: messageData.typeMessage,
-                    textMessage: messageData.typeMessage === 'extendedTextMessage' 
-                        ? messageData.extendedTextMessageData.text 
-                        : messageData.textMessageData.textMessage,
+                if (senderData.chatId === state.chatHistory[0].chatId){
+                    const newItem: MessageType = {
+                        type: senderData.chatId === senderData.sender ? 'incoming' : 'outgoing',
+                        idMessage: idMessage,
+                        chatId: senderData.chatId,
+                        senderId: senderData.sender,
+                        typeMessage: messageData.typeMessage,
+                        textMessage: messageData.typeMessage === 'extendedTextMessage' 
+                            ? messageData.extendedTextMessageData.text 
+                            : messageData.textMessageData.textMessage,
+                    }
+                    state.chatHistory.push(newItem);
+                    console.log('Новое сообщение получено');
                 }
-                state.chatHistory.push(newItem);
-                console.log('Новое сообщение получено');
             } else {
                 console.log('Нет новых сообщений');
             }
