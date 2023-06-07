@@ -72,18 +72,22 @@ export const Messages = () => {
                 <div ref={chatBodyEnd}></div>
             </div>
             <Bottombar>
-                <InputField 
-                    placeholder={'Введите сообщение'} 
-                    text={writtenText} 
-                    setText={setWrittenText} 
-                    setIsSent={setIsSent}
-                />
-                <Button 
-                    setIsClicked={setIsSent} 
-                    isFilledField={!!writtenText} 
-                    iconUrl={sendMessageIcon}
-                    alt="send message"
-                />
+                {selectedChatId &&
+                    <>
+                        <InputField 
+                            placeholder={'Введите сообщение'} 
+                            text={writtenText} 
+                            setText={setWrittenText} 
+                            setIsSent={setIsSent}
+                        />
+                        <Button 
+                            setIsClicked={setIsSent} 
+                            isFilledField={!!writtenText} 
+                            iconUrl={sendMessageIcon}
+                            alt="send message"
+                        />
+                    </>
+                }
             </Bottombar>
         </div>
     )
