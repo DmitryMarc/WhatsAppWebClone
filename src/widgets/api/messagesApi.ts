@@ -1,27 +1,9 @@
-import { AuthDataType } from "../model/auth/authSlice";
+import { AuthDataType, MessageType } from "../../shared/types";
 import { instanceApi } from "./consts/intanceApi";
-
-type MessageType = {
-    type: 'outgoing' | 'incoming',
-    idMessage: string,
-    chatId: string,
-    senderId: string,
-    typeMessage:
-    'textMessage' |
-    'imageMessage' |
-    'videoMessage' |
-    'documentMessage' |
-    'audioMessage' |
-    'locationMessage' |
-    'contactMessage' |
-    'extendedTextMessage',
-    textMessage: string
-}
 
 type SentMessageType = {
     idMessage: string
 }
-
 
 type messageDataText = {
     typeMessage: 'textMessage',

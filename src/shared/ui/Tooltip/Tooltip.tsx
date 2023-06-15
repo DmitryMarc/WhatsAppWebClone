@@ -1,5 +1,5 @@
 import { FC, ReactNode } from 'react'
-import { Status } from '../../../widgets/model/chats/chatsSlice'
+import { Status } from '../../types'
 import styles from './Tooltip.module.scss'
 
 type TooltipType = {

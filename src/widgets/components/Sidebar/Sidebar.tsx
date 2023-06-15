@@ -1,21 +1,21 @@
 import { useEffect, useRef, useState } from "react"
 import { useSelector } from "react-redux"
 import { useAppDispatch } from "../../../app/model/appStore"
-import AddContactIcon from '../../../shared/assets/img/add-contact.svg'
 import { Chat } from '../../../entities/Chat'
 import { Menu } from "../../../entities/Menu"
 import { Topbar } from "../../../entities/Topbar"
 import { Button, InputField } from "../../../shared"
+import AddContactIcon from '../../../shared/assets/img/add-contact.svg'
+import { Status } from "../../../shared/types"
+import { Tooltip } from "../../../shared/ui/Tooltip/Tooltip"
 import { deleteAuthDataFromLocalStorage } from "../../lib/deleteAuthDataFromLocalStorage"
 import { logout } from "../../model/auth/authSlice"
 import { selectAuthData } from "../../model/auth/selectors"
-import { Status, setAddingContactError, setSelectedItem } from "../../model/chats/chatsSlice"
-import { selectChats, selectCurrentItemId, selectItemsInfo, selectAddingСontact } from "../../model/chats/selectors"
+import { setAddingContactError, setSelectedItem } from "../../model/chats/chatsSlice"
+import { selectAddingСontact, selectChats, selectCurrentItemId, selectItemsInfo } from "../../model/chats/selectors"
 import { addNewContact } from "../../model/chats/thunks/addNewContact"
 import { fetchChats } from "../../model/chats/thunks/fetchChats"
 import styles from './Sidebar.module.scss'
-import { Tooltip } from "../../../shared/ui/Tooltip/Tooltip"
-
 
 export const Sidebar = () => {
     const [newContact, setNewContact] = useState('');
@@ -30,17 +30,17 @@ export const Sidebar = () => {
     const authData = useSelector(selectAuthData);
     const addingContact = useSelector(selectAddingСontact);
 
-    useEffect(()=>{
-        if (!isMounted.current){
+    useEffect(() => {
+        if (!isMounted.current) {
             dispatch(fetchChats(authData));
         }
         isMounted.current = true
-    },[])
+    }, [])
 
     useEffect(() => {
-        if(isAdded){
-            if (+newContact.slice(1) && (newContact.length === 11 || newContact.length === 12)){
-                dispatch(addNewContact({contact: newContact, authData}));
+        if (isAdded) {
+            if (+newContact.slice(1) && (newContact.length === 11 || newContact.length === 12)) {
+                dispatch(addNewContact({ contact: newContact, authData }));
                 setNewContact('');
             } else {
                 dispatch(setAddingContactError({
@@ -53,7 +53,7 @@ export const Sidebar = () => {
     }, [isAdded])
 
     useEffect(() => {
-        if (addingContact.status === Status.ERROR){
+        if (addingContact.status === Status.ERROR) {
             dispatch(setAddingContactError({
                 status: Status.LOADING,
                 error: undefined
@@ -66,7 +66,7 @@ export const Sidebar = () => {
     }, [chats])
 
     useEffect(() => {
-        if (selectedMenuItem === 'Выйти'){
+        if (selectedMenuItem === 'Выйти') {
             deleteAuthDataFromLocalStorage();
             dispatch(logout());
             setSelectedMenuItem('')
@@ -78,15 +78,15 @@ export const Sidebar = () => {
         <div className={styles.sidebar}>
             <Topbar>
                 <Tooltip data={addingContact}>
-                    <InputField 
-                            placeholder={'Добавьте контакт'} 
-                            text={newContact} 
-                            setText={setNewContact} 
-                            setIsSent={setIsAdded} 
-                        />
+                    <InputField
+                        placeholder={'Добавьте контакт'}
+                        text={newContact}
+                        setText={setNewContact}
+                        setIsSent={setIsAdded}
+                    />
                 </Tooltip>
-                <Button 
-                    setIsClicked={setIsAdded} 
+                <Button
+                    setIsClicked={setIsAdded}
                     isFilledField={!!newContact}
                     iconUrl={AddContactIcon}
                     alt="add contact"
@@ -94,18 +94,18 @@ export const Sidebar = () => {
                 <Menu setSelectedMenuItem={setSelectedMenuItem} />
             </Topbar>
             {/* ЗАСУНУТЬ В МАПЕР */}
-                <div className={styles.chats} ref={chatsTop}>
-                    {!!chats?.length && chats.map((item) => (
-                        <Chat 
-                            key={item.id} 
-                            chatData={item} 
-                            selectedChatId={selectedChatId} 
-                            setSelectedChatId={setSelectedItem} 
-                            chatsAvatars={chatsAvatars} 
-                        />
-                        ))
-                    }
-                </div>
+            <div className={styles.chats} ref={chatsTop}>
+                {!!chats?.length && chats.map((item) => (
+                    <Chat
+                        key={item.id}
+                        chatData={item}
+                        selectedChatId={selectedChatId}
+                        setSelectedChatId={setSelectedItem}
+                        chatsAvatars={chatsAvatars}
+                    />
+                ))
+                }
+            </div>
         </div>
     )
 }

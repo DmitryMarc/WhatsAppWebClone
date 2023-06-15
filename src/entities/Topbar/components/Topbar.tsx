@@ -2,6 +2,7 @@ import { FC } from 'react'
 import reactIcon from '../../../shared/assets/react.svg'
 import { Avatar } from '../../../shared'
 import styles from './Topbar.module.scss'
+import emptyUserIcon from '../../../shared/assets/img/user-empty.svg'
 
 type LocationStyle = {
     locationStyle?: 'messages' | null,
@@ -14,7 +15,7 @@ type LocationStyle = {
 export const Topbar: FC<LocationStyle> = (props) => {
     const { locationStyle, currentChatAvatar, children, chatName, selectedChatId } = props;
 
-    const userAvatar = selectedChatId ? <Avatar urlAvatar={currentChatAvatar} name={chatName} /> : null;
+    const userAvatar = selectedChatId ? <Avatar urlAvatar={currentChatAvatar || emptyUserIcon} name={chatName} /> : null;
     const myAvatar = <Avatar urlAvatar={reactIcon} />;
     
     return (

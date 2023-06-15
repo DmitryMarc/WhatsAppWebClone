@@ -1,20 +1,20 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { messagesAPI } from "../../..";
-import { AuthDataType } from "../../auth/authSlice";
 import { getLastMessage } from "./getLastMessage";
+import { AuthDataType } from "../../../../shared/types";
 
 type ArgType = {
-    chatId: string, 
-    isFirstChat: boolean, 
+    chatId: string,
+    isFirstChat: boolean,
     authData: AuthDataType
 }
 
 export const fetchChatHistory = createAsyncThunk(
     'messages/fetchChatHistory',
-    async ({chatId, isFirstChat, authData}:ArgType, {dispatch}) => {
+    async ({ chatId, isFirstChat, authData }: ArgType, { dispatch }) => {
         const response = await messagesAPI.getChatHistory(chatId, authData);
-
-        if(Array.isArray(response) && isFirstChat){
+        debugger;
+        if (Array.isArray(response) && isFirstChat) {
             dispatch(getLastMessage(authData));
         }
         return response;

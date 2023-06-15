@@ -1,22 +1,12 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { fetchStateInstance } from "./thunks/fetchStateInstance";
-
-export type AuthDataType = {
-    idInstance: string,
-    apiTokenInstance: string
-}
+import { AuthDataType, Status } from "../../../shared/types";
 
 type AuthStateType = {
     authData: AuthDataType,
     isAuthorized: boolean,
     status: Status,
     error: string | undefined
-}
-
-export enum Status {
-    LOADING = 'loading',
-    SUCCESS = 'success',
-    ERROR = 'error'
 }
 
 export const initialState: AuthStateType = {
@@ -33,7 +23,7 @@ export const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        logout(state){
+        logout(state) {
             state.authData = {
                 idInstance: '',
                 apiTokenInstance: ''
@@ -42,10 +32,10 @@ export const authSlice = createSlice({
             state.status = Status.LOADING;
             state.error = undefined;
         },
-        setAuthStatus(state, action: PayloadAction<Status>){
+        setAuthStatus(state, action: PayloadAction<Status>) {
             state.status = action.payload;
         },
-        setAuthError(state, action: PayloadAction<string>){
+        setAuthError(state, action: PayloadAction<string>) {
             state.error = action.payload;
             state.status = Status.ERROR;
         }
@@ -56,18 +46,18 @@ export const authSlice = createSlice({
             console.log('Идёт отправка');
         });
         builder.addCase(fetchStateInstance.fulfilled, (state, action) => {
-            const {isAuthorised, stateInstance, idInstance, apiTokenInstance} = action.payload;
-            if (isAuthorised){
+            const { isAuthorised, stateInstance, idInstance, apiTokenInstance } = action.payload;
+            if (isAuthorised) {
                 state.authData = {
                     idInstance: idInstance,
                     apiTokenInstance: apiTokenInstance
                 };
                 state.isAuthorized = isAuthorised;
             } else {
-                switch(stateInstance){
+                switch (stateInstance) {
                     case "notAuthorized": {
                         state.error = '*Аккаунт не авторизован';
-                        break; 
+                        break;
                     };
                     case "starting": {
                         state.error = '*Аккаунт в процессе запуска (сервисный режим)';
@@ -88,7 +78,7 @@ export const authSlice = createSlice({
         builder.addCase(fetchStateInstance.rejected, (state, action) => {
             state.status = Status.ERROR;
             const errorCode = action.payload;
-            switch(errorCode){
+            switch (errorCode) {
                 case 500: {
                     state.error = '*Серверная ошибка.';
                     break;

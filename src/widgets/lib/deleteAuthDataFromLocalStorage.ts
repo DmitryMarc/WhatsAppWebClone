@@ -1,3 +1,3 @@
 export const deleteAuthDataFromLocalStorage = () => {
-    return localStorage.removeItem('auth');
+    localStorage.removeItem('auth');
 }

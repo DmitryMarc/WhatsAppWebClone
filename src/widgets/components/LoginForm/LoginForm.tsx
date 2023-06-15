@@ -2,8 +2,9 @@ import { FormEvent, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../../app/model/appStore";
 import { InputField, Preloader } from "../../../shared";
+import { Status } from "../../../shared/types";
 import { getCartFromLocalStorage } from "../../lib/getAuthDataFromLocalStorage";
-import { Status, setAuthError, setAuthStatus } from "../../model/auth/authSlice";
+import { setAuthError, setAuthStatus } from "../../model/auth/authSlice";
 import { selectAuthError, selectAuthStatus } from "../../model/auth/selectors";
 import { fetchStateInstance } from "../../model/auth/thunks/fetchStateInstance";
 import styles from './LoginForm.module.scss';
@@ -62,10 +63,10 @@ export const LoginForm = () => {
                     />
                 </label>
                 <div className={styles.loginBottom}>
-                    {authStatus && 
+                    {authStatus &&
                         <span
                             className={styles.error}
-                        > 
+                        >
                             {authError}
                         </span>
                     }

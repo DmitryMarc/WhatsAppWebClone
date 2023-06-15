@@ -1,16 +1,10 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { ChatType } from "../../api/chatsApi";
 import { addNewContact } from "./thunks/addNewContact";
 import { fetchAvatar } from "./thunks/fetchAvatar";
 import { fetchChats } from "./thunks/fetchChats";
+import { AvatarType, ChatType, Status } from "../../../shared/types";
 
-export type AvatarType = {
-    userId: string,
-    existsWhatsapp?: boolean,
-    urlAvatar: string
-}
-
-export type AddingContactType = {
+type AddingContactType = {
     status: Status,
     error: string | undefined
 }
@@ -23,13 +17,7 @@ type ChatsStateType = {
     addingСontact: AddingContactType
 }
 
-export enum Status {
-    LOADING = 'loading',
-    SUCCESS = 'success',
-    ERROR = 'error'
-}
-
-export const initialState: ChatsStateType= {
+export const initialState: ChatsStateType = {
     items: [],
     itemsInfo: [],
     statusItems: Status.LOADING,
@@ -44,15 +32,15 @@ export const chatsSlice = createSlice({
     name: 'chats',
     initialState,
     reducers: {
-        setSelectedItem(state, action: PayloadAction<string>) {  
+        setSelectedItem(state, action: PayloadAction<string>) {
             const found = state.items.find(item => item.id === action.payload);
-            if (found){
+            if (found) {
                 const filtered = state.items.filter(item => item.id !== found?.id);
                 state.items = [found, ...filtered];
             }
             state.selectedItemId = action.payload;
         },
-        setAddingContactError(state, action: PayloadAction<AddingContactType>){
+        setAddingContactError(state, action: PayloadAction<AddingContactType>) {
             state.addingСontact.error = action.payload.error;
             state.addingСontact.status = action.payload.status;
         }
@@ -94,27 +82,27 @@ export const chatsSlice = createSlice({
             state.addingСontact.status = Status.SUCCESS;
             state.addingСontact.error = undefined;
 
-            const {contact, chatId, avatar} = action.payload;
+            const { contact, chatId, avatar } = action.payload;
             const foundMatch = state.items.find(item => item.id === chatId)
-            if(!foundMatch){
-            const newItem = {
-                id: chatId,
-                name: contact
+            if (!foundMatch) {
+                const newItem = {
+                    id: chatId,
+                    name: contact
+                }
+                const itemInfo = {
+                    userId: chatId,
+                    urlAvatar: avatar
+                }
+                state.items.unshift(newItem);
+                state.itemsInfo.unshift(itemInfo);
+                console.log(state, 'Новый чат добавлен');
             }
-            const itemInfo = {
-                userId: chatId,
-                urlAvatar: avatar
-            }
-            state.items.unshift(newItem);
-            state.itemsInfo.unshift(itemInfo);
-            console.log(state, 'Новый чат добавлен');
-            } 
         });
         builder.addCase(addNewContact.rejected, (state, action) => {
             console.log('Была ошибка');
             state.addingСontact.status = Status.ERROR;
             const errorCode = action.payload;
-            switch(errorCode){
+            switch (errorCode) {
                 case 500: {
                     state.addingСontact.error = '*Серверная ошибка.';
                     break;

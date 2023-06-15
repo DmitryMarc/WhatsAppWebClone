@@ -1,11 +1,5 @@
-import { AuthDataType } from '../model/auth/authSlice';
+import { AuthDataType, ChatType } from '../../shared/types';
 import { instanceApi } from './consts/intanceApi';
-
-export type ChatType = {
-    id: string,
-    name: string,
-    type?: string
-}
 
 export type ChatExtendType = {
     chatId: string,

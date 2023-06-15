@@ -3,36 +3,14 @@ import { deleteLastMessage } from "./thunks/deleteLastMessage";
 import { fetchChatHistory } from "./thunks/fetchChatHistory";
 import { getLastMessage } from "./thunks/getLastMessage";
 import { sendMessage } from "./thunks/sendMessage";
-
-export type MessageType = {
-    type: 'outgoing' | 'incoming',
-    idMessage: string,
-    chatId: string,
-    senderId: string,
-    typeMessage: 
-        'textMessage' | 
-        'imageMessage' | 
-        'videoMessage' | 
-        'documentMessage' | 
-        'audioMessage' | 
-        'locationMessage' | 
-        'contactMessage' | 
-        'extendedTextMessage',
-    textMessage: string
-}
+import { MessageType, Status } from "../../../shared/types";
 
 type MessagesStateType = {
     chatHistory: MessageType[],
     status: Status
 }
 
-export enum Status {
-    LOADING = 'loading',
-    SUCCESS = 'success',
-    ERROR = 'error'
-}
-
-export const initialState: MessagesStateType= {
+export const initialState: MessagesStateType = {
     chatHistory: [],
     status: Status.LOADING
 }
@@ -74,17 +52,17 @@ export const messagesSlice = createSlice({
             console.log('Идёт отправка');
         });
         builder.addCase(getLastMessage.fulfilled, (state, action) => {
-            if (action.payload){
-                const {idMessage, senderData, messageData} = action.payload.body;
-                if (senderData.chatId === state.chatHistory[0].chatId){
+            if (action.payload) {
+                const { idMessage, senderData, messageData } = action.payload.body;
+                if (senderData.chatId === state.chatHistory[0].chatId) {
                     const newItem: MessageType = {
                         type: senderData.chatId === senderData.sender ? 'incoming' : 'outgoing',
                         idMessage: idMessage,
                         chatId: senderData.chatId,
                         senderId: senderData.sender,
                         typeMessage: messageData.typeMessage,
-                        textMessage: messageData.typeMessage === 'extendedTextMessage' 
-                            ? messageData.extendedTextMessageData.text 
+                        textMessage: messageData.typeMessage === 'extendedTextMessage'
+                            ? messageData.extendedTextMessageData.text
                             : messageData.textMessageData.textMessage,
                     }
                     state.chatHistory.push(newItem);
